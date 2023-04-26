@@ -7,6 +7,7 @@ import { createServer } from '@/server';
 
 import cluster from 'cluster';
 import createWorker from '@/core/utils/createWorker';
+import { createWebSocketServer } from './websocket';
 
 async function boostrap() {
     const MODE = Env.get('NODE_ENV');
@@ -15,8 +16,7 @@ async function boostrap() {
         await db.$connect();
 
         await createServer();
-        // await createWebSocketServer();
-        // await Game.start();
+        await createWebSocketServer();
     } else if (cluster.isMaster) {
         createWorker();
     }
